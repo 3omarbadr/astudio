@@ -1,67 +1,308 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# **Astudio API**
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Astudio is a **Laravel-based API** that provides a robust **time tracking and project management system**. It includes **user authentication, project management, timesheet logging**, and a **flexible filtering system** with **dynamic attributes (EAV Model)**.
 
-## About Laravel
+---
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## **🚀 Features**
+✅ **User Authentication** (Register, Login, Logout with Laravel Passport)  
+✅ **Project Management** (CRUD operations, user assignment)  
+✅ **Timesheet Logging** (Track time spent on projects)  
+✅ **Dynamic Attributes for Projects** (EAV Model)  
+✅ **Flexible Filtering System** (Filter projects based on regular and dynamic attributes)  
+✅ **RESTful API with Validation & Error Handling**
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+---
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+# **📌 Setup Instructions**
 
-## Learning Laravel
+### **🔹 Prerequisites**
+Ensure you have the following installed:
+- **PHP 8.1+**
+- **Composer**
+- **MySQL or MariaDB**
+- **Laravel 10+**
+- **Postman or any API testing tool (for testing)**
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+---
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+### **🔹 Installation Steps**
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+#### **1️⃣ Clone the repository**
+```bash
+git clone https://github.com/3omarbadr/astudio.git
+cd astudio
+```
 
-## Laravel Sponsors
+#### **2️⃣ Install dependencies**
+```bash
+composer install
+```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+#### **3️⃣ Set up environment variables**
+Copy the example environment file:
+```bash
+cp .env.example .env
+```
+Generate a new application key:
+```bash
+php artisan key:generate
+```
 
-### Premium Partners
+#### **4️⃣ Configure the database**
+Edit the `.env` file to match your database configuration:
+```
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=timetracking
+DB_USERNAME=your_database_user
+DB_PASSWORD=your_database_password
+```
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+#### **5️⃣ Run Migrations and Seeders**
+```bash
+php artisan migrate --seed
+```
+This will **create the necessary database tables and insert seed data**.
 
-## Contributing
+#### **6️⃣ Install Laravel Passport**
+```bash
+php artisan passport:install
+```
+Copy the **Personal Access Client ID & Secret** from the output and update your `.env` file:
+```
+PASSPORT_PERSONAL_ACCESS_CLIENT_ID=1
+PASSPORT_PERSONAL_ACCESS_CLIENT_SECRET=your_client_secret
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+#### **7️⃣ Clear Cache and Restart Server**
+```bash
+php artisan config:clear
+php artisan cache:clear
+php artisan serve
+```
 
-## Code of Conduct
+---
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+# **📌 API Documentation**
 
-## Security Vulnerabilities
+## **🔐 Authentication**
+The API uses **Laravel Passport** for authentication.  
+Include the **Bearer Token** in the `Authorization` header for protected routes.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### **1️⃣ Register a New User**
+#### **➡️ Endpoint:**
+```http
+POST /api/auth/register
+```
+#### **➡️ Request Body:**
+```json
+{
+    "first_name": "John",
+    "last_name": "Doe",
+    "email": "user@example.com",
+    "password": "password",
+    "password_confirmation": "password"
+}
+```
+#### **✅ Response:**
+```json
+{
+    "data": {
+        "token": "eyJ0eXAiOiJKV1QiLCJhbGc...",
+        "user": {
+            "id": 1,
+            "first_name": "John",
+            "last_name": "Doe",
+            "email": "user@example.com"
+        }
+    }
+}
+```
 
-## License
+---
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
-# astudio
+### **2️⃣ Login**
+#### **➡️ Endpoint:**
+```http
+POST /api/auth/login
+```
+#### **➡️ Request Body:**
+```json
+{
+    "email": "user@example.com",
+    "password": "password"
+}
+```
+#### **✅ Response:**
+```json
+{
+    "data": {
+        "token": "eyJ0eXAiOiJKV1QiLCJhbGc...",
+        "user": {
+            "id": 1,
+            "first_name": "John",
+            "last_name": "Doe",
+            "email": "user@example.com"
+        }
+    }
+}
+```
+
+---
+
+### **3️⃣ Logout**
+#### **➡️ Endpoint:**
+```http
+POST /api/auth/logout
+```
+#### **➡️ Headers:**
+```
+Authorization: Bearer {token}
+```
+#### **✅ Response:**
+```json
+{
+    "message": "Successfully logged out"
+}
+```
+
+---
+
+## **📌 Project Management**
+
+### **1️⃣ List Projects**
+#### **➡️ Endpoint:**
+```http
+GET /api/projects
+```
+#### **➡️ Headers:**
+```
+Authorization: Bearer {token}
+```
+#### **✅ Response:**
+```json
+{
+    "data": [
+        {
+            "id": 1,
+            "name": "Project Alpha",
+            "status": "active",
+            "created_at": "2024-03-20T10:00:00Z"
+        }
+    ]
+}
+```
+
+---
+
+### **2️⃣ Create a Project**
+#### **➡️ Endpoint:**
+```http
+POST /api/projects
+```
+#### **➡️ Request Body:**
+```json
+{
+    "name": "New Project",
+    "status": "active",
+    "users": [1, 2], 
+    "attributes": [
+        {"name": "department", "value": "IT"},
+        {"name": "budget", "value": "5000"}
+    ]
+}
+```
+#### **✅ Response:**
+```json
+{
+    "data": {
+        "id": 1,
+        "name": "New Project",
+        "status": "active",
+        "created_at": "2024-03-20T10:00:00Z"
+    }
+}
+```
+
+---
+
+## **📌 Timesheet Management**
+### **1️⃣ Log Work Time**
+#### **➡️ Endpoint:**
+```http
+POST /api/timesheets
+```
+#### **➡️ Request Body:**
+```json
+{
+    "project_id": 1,
+    "task_name": "Develop API",
+    "date": "2024-03-20",
+    "hours": 8
+}
+```
+#### **✅ Response:**
+```json
+{
+    "data": {
+        "id": 1,
+        "project_id": 1,
+        "task_name": "Develop API",
+        "date": "2024-03-20",
+        "hours": 8
+    }
+}
+```
+
+---
+
+## **📌 Filtering Projects**
+Supports filtering by **both standard and EAV attributes**.
+
+#### **➡️ Example 1: Filter by Name**
+```http
+GET /api/projects?filters[name]=ProjectA
+```
+#### **➡️ Example 2: Filter by Status and Department**
+```http
+GET /api/projects?filters[status]=active&filters[attributes][department]=IT
+```
+#### **➡️ Example 3: Filter by Budget Greater Than 5000**
+```http
+GET /api/projects?filters[attributes][budget][operator]=>&filters[attributes][budget][value]=5000
+```
+
+---
+
+## **📌 Test Credentials**
+Use these test accounts:
+
+**Admin User:**
+```
+Email: admin@example.com
+Password: password
+```
+
+---
+
+## **📌 Error Handling**
+The API returns proper HTTP status codes with helpful messages.
+
+| Status Code | Meaning |
+|-------------|---------|
+| `401` Unauthorized | Invalid or missing token |
+| `403` Forbidden | Not authorized |
+| `422` Validation Error | Request data is invalid |
+
+---
+
+## **🚀 Deliverables**
+- ✅ **GitHub Repository**
+- ✅ **SQL Dump (`database.sql`)**
+- ✅ **README (API Documentation & Setup Guide)**
+- ✅ **Example API Requests**
+- ✅ **Test Credentials**
+
+This **detailed guide** ensures that **you can set up and use the API easily!** 🚀 Let me know if you need further refinements! 😊
